@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: Isaac Zhou Article
+# key: iza
+# --
+
++++
+author = "Isaac Zhou"
+categories = `[]`
+date = `(format-time-string "%Y-%m-%d")`
+description = 
+featured = 
+featuredalt = 
+featuredpath = 
+linktitle = 
+title = 
+type = "post"
++++
