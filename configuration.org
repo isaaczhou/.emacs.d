@@ -5,6 +5,7 @@
 
 * Configure 
 
+
 ** use package
  I use =use-package= to install and configure my packages. My =init.el= includes
  the initial setup for =package.el= and ensures that =use-package= is installed,
@@ -40,6 +41,18 @@ Refresh package
      :config (auto-compile-on-load-mode))
    (setq load-prefer-newer t)
  #+end_src
+
+
+** Use org bullet
+
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    )
+  (add-hook 'org-mode-hook #'org-bullets-mode)
+  (org-bullets-mode t)
+#+end_src
+
 
 ** set autosave and backup dir
 
@@ -117,7 +130,10 @@ Refresh package
 #+end_src
 
 
+
 * UI preferences
+
+
 ** Tweak window chrome
 
 I don't usually use the menu or scroll bar, and they take up useful space.
@@ -166,7 +182,7 @@ that:
 
 #+begin_src emacs-lisp
   (when (window-system)
-    (set-default-font "Fira Code 16"))
+    (set-default-font "Fira Code 12"))
   (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
 		 (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
 		 (36 . ".\\(?:>\\)")
@@ -198,19 +214,15 @@ that:
 			    `([,(cdr char-regexp) 0 font-shape-gstring]))))
 #+end_src
 
+#+RESULTS:
+
 ** Use fancy lambdas
 
 #+begin_src emacs-lisp
   (global-prettify-symbols-mode t)
 #+end_src
 
-** Use org bullet
 
-#+begin_src emacs-lisp
-  (use-package org-bullets
-  :ensure t)
-  (add-hook 'org-mode-hook #'org-bullets-mode)
-#+end_src
 
 ** Themes
 
@@ -413,15 +425,16 @@ that:
 ** Org Babel
 
 #+begin_src emacs-lisp
-  (use-package org
-  :ensure t)
-  ;; (use-package ob-ipython
-  ;; :ensure t)
+  (use-package ob-ipython
+    :ensure t)
+  (require 'ob-js)
+  (setq org-babel-python-command "/home/cosmos/anaconda3/bin/python3")
+  (setq py-python-command "/home/cosmos/anaconda3/bin/python3")
 
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((python . t)
-     ;; (ipython . t)
+     (ipython . t)
      (C . t)
      (calc . t)
      (latex . t)
@@ -433,10 +446,13 @@ that:
      (sqlite . t)
      (js . t)))
 
+  (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
+  (add-to-list 'org-babel-tangle-lang-exts '("js" . "js"))
+
   (defun my-org-confirm-babel-evaluate (lang body)
     "Do not confirm evaluation for these languages."
     (not (or (string= lang "C")
-             ;; (string= lang "ipython")
+             (string= lang "ipython")
              (string= lang "java")
              (string= lang "python")
              (string= lang "emacs-lisp")
@@ -444,9 +460,17 @@ that:
              (string= lang "sqlite"))))
   (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 
+  ;; js
+  (setq org-babel-js-function-wrapper
+        "console.log(require('util').inspect(function(){\n%s\n}(), { depth: 100 }))")
+
   ;;; display/update images in the buffer after I evaluate
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 #+end_src
+
+#+RESULTS:
+| org-display-inline-images |
+
 
 ** Webmode
 

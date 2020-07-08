@@ -16,6 +16,12 @@
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
 
+(use-package org-bullets
+  :ensure t
+  )
+(add-hook 'org-mode-hook #'org-bullets-mode)
+(org-bullets-mode t)
+
 (defconst emacs-tmp-dir (format "~%s%s%s/" temporary-file-directory "emacs" (user-uid)))
 (setq backup-directory-alist `((".*" . ,emacs-tmp-dir)))
 (setq auto-save-file-name-transforms `((".*" ,emacs-tmp-dir t)))
@@ -77,7 +83,7 @@
          ))
 
 (when (window-system)
-  (set-default-font "Fira Code 16"))
+  (set-default-font "Fira Code 12"))
 (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
 	       (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
 	       (36 . ".\\(?:>\\)")
@@ -109,10 +115,6 @@
 			  `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
 (global-prettify-symbols-mode t)
-
-(use-package org-bullets
-:ensure t)
-(add-hook 'org-mode-hook #'org-bullets-mode)
 
 (use-package leuven-theme
 :ensure t)
@@ -265,15 +267,16 @@
     :ensure t)
   )
 
-(use-package org
-:ensure t)
-;; (use-package ob-ipython
-;; :ensure t)
+(use-package ob-ipython
+  :ensure t)
+(require 'ob-js)
+(setq org-babel-python-command "/home/cosmos/anaconda3/bin/python3")
+(setq py-python-command "/home/cosmos/anaconda3/bin/python3")
 
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((python . t)
-   ;; (ipython . t)
+   (ipython . t)
    (C . t)
    (calc . t)
    (latex . t)
@@ -285,16 +288,23 @@
    (sqlite . t)
    (js . t)))
 
+(org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
+(add-to-list 'org-babel-tangle-lang-exts '("js" . "js"))
+
 (defun my-org-confirm-babel-evaluate (lang body)
   "Do not confirm evaluation for these languages."
   (not (or (string= lang "C")
-           ;; (string= lang "ipython")
+           (string= lang "ipython")
            (string= lang "java")
            (string= lang "python")
            (string= lang "emacs-lisp")
            (string= lang "js")
            (string= lang "sqlite"))))
 (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+
+;; js
+(setq org-babel-js-function-wrapper
+      "console.log(require('util').inspect(function(){\n%s\n}(), { depth: 100 }))")
 
 ;;; display/update images in the buffer after I evaluate
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)

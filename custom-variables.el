@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (powerline ob-ipython yasnippet leuven-theme org-bullets auto-compile use-package))))
+    (ob-js ob-ipython yasnippet leuven-theme org-bullets auto-compile use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
