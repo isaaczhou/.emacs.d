@@ -88,42 +88,48 @@
          ("<return>" . mule-keymap)
          ))
 
-(when (window-system)
-  (set-default-font "Fira Code 12"))
-(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-	       (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-	       (36 . ".\\(?:>\\)")
-	       (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-	       (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-	       (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-	       (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-	       (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-	       (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-	       (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-	       (48 . ".\\(?:x[a-zA-Z]\\)")
-	       (58 . ".\\(?:::\\|[:=]\\)")
-	       (59 . ".\\(?:;;\\|;\\)")
-	       (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-	       (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-	       (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-	       (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-	       (91 . ".\\(?:]\\)")
-	       (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-	       (94 . ".\\(?:=\\)")
-	       (119 . ".\\(?:ww\\)")
-	       (123 . ".\\(?:-\\)")
-	       (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-	       (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-	       )
-	     ))
-  (dolist (char-regexp alist)
-    (set-char-table-range composition-function-table (car char-regexp)
-			  `([,(cdr char-regexp) 0 font-shape-gstring]))))
+;; (when (window-system)
+;;   (set-default-font "Source Code Pro 14"))
+
+(when (window-system)                   
+  (set-default-font "Source Code Pro 16"))
 
 (global-prettify-symbols-mode t)
 
+(use-package powerline
+:ensure t)
+
+(powerline-default-theme)
+
+(use-package monokai-pro-theme
+  :if (window-system)
+  :ensure t
+  :init
+  (setq monokai-use-variable-pitch nil))
+
 (use-package leuven-theme
 :ensure t)
+  (load-theme 'leuven)
+
+(defun switch-theme (theme)
+  "Disables any currently active themes and loads THEME."
+  ;; This interactive call is taken from `load-theme'
+  (interactive
+   (list
+    (intern (completing-read "Load custom theme: "
+                             (mapc 'symbol-name
+                                   (custom-available-themes))))))
+  (let ((enabled-themes custom-enabled-themes))
+    (mapc #'disable-theme custom-enabled-themes)
+    (load-theme theme t)))
+
+(defun disable-active-themes ()
+  "Disables any currently active themes listed in `custom-enabled-themes'."
+  (interactive)
+  (mapc #'disable-theme custom-enabled-themes))
+
+(bind-key "<f9>" 'switch-theme)
+(bind-key "<f8>" 'disable-active-themes)
 
 (defun move-text-internal (arg)
    (cond
@@ -230,6 +236,7 @@
   (define-key company-active-map (kbd "M-p") nil))
 
 
+
 ;;
 ;; change company complete common
 ;;
@@ -273,11 +280,13 @@
     :ensure t)
   )
 
+(setq python-shell-interpreter "/usr/bin/python3")
+
 (use-package ob-ipython
   :ensure t)
 (require 'ob-js)
-(setq org-babel-python-command "/home/cosmos/anaconda3/bin/python3")
-(setq py-python-command "/home/cosmos/anaconda3/bin/python3")
+(setq org-babel-python-command "/usr/bin/python3")
+(setq py-python-command "/usr/bin/python3")
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -543,7 +552,10 @@
 ;;
 (use-package python
   :ensure t
-  :mode ("\\.py\\'" . python-mode)
+  :mode (
+  ("\\.py\\'" . python-mode)
+  ("\\.ipy\\'" . python-mode)
+  )
   :interpreter ("python" . python-mode)
   :config
   (setq indent-tabs-mode nil)
@@ -577,3 +589,164 @@
 
 (provide 'python)
 ;;; python.el ends here
+
+(use-package pipenv
+  :hook (python-mode . pipenv-mode)
+  :init
+  (setq
+   pipenv-projectile-after-switch-function
+   #'pipenv-projectile-after-switch-extended))
+
+;;; c.el --- c/c++ mode                              -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2018  vagrant
+
+;; Author: vagrant <vagrant@node1.onionstudio.com.tw>
+;; Keywords: c
+
+;;; Code:
+
+
+;;
+;; irony is for auto-complete, syntax checking and documentation
+;;
+;; You will need to install irony-server first time use
+;; to install irony-server, your system need to install clang, cmake and clang-devel in advance
+;;
+(use-package irony
+  :ensure t
+  :hook ((c++-mode . irony-mode)
+         (c-mode . irony-mode))
+  :config
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  (use-package company-irony-c-headers
+    :ensure t)
+  (use-package company-irony
+    :ensure t
+    :config
+    (add-to-list (make-local-variable 'company-backends)
+                 '(company-irony company-irony-c-headers)))
+  (use-package flycheck-irony
+    :ensure t
+    :config
+    (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
+    )
+  (use-package irony-eldoc
+    :ensure t
+    :config
+    (add-hook 'irony-mode-hook #'irony-eldoc)
+    )
+  )
+
+
+;;
+;; rtags enable jump-to-function definition
+;; system need to install rtags first
+;;
+;; for centos, you need llvm-devel, cppunit-devl
+;; install gcc-4.9, cmake 3.1 and download rtags from github and make it
+;;
+
+(use-package rtags
+  :ensure t
+  :config
+  (rtags-enable-standard-keybindings)
+  (setq rtags-autostart-diagnostics t)
+  (rtags-diagnostics)
+  (setq rtags-completions-enabled t)
+  (define-key c-mode-base-map (kbd "M-.")
+    (function rtags-find-symbol-at-point))
+  (define-key c-mode-base-map (kbd "M-,")
+    (function rtags-find-references-at-point))
+  )
+
+;;
+;; cmake-ide enable rdm(rtags) auto start and rc(rtags) to watch directory
+;;
+(use-package cmake-ide
+  :ensure t
+  :config
+  (cmake-ide-setup)
+  )
+
+
+;;
+;; for editting CMakeLists.txt
+;;
+(use-package cmake-mode
+  :ensure t
+  :mode (("CMakeLists\\.txt\\'" . cmake-mode)
+         ("\\.cmake\\'" . cmake-mode))
+  :config
+  (add-hook 'cmake-mode-hook (lambda()
+                               (add-to-list (make-local-variable 'company-backends)
+                                            'company-cmake)))
+  )
+
+;;
+;; for c formatting
+;;
+(use-package clang-format
+  :ensure t
+  :config
+  (setq clang-format-style-option "llvm")
+  (add-hook 'c-mode-hook (lambda() (add-hook 'before-save-hook 'clang-format-buffer)))
+  (add-hook 'c++-mode-hook (lambda() (add-hook 'before-save-hook 'clang-format-buffer)))
+  )
+
+(provide 'c)
+;;; c.el ends here
+
+(use-package go-mode
+  :ensure t
+  :mode (("\\.go\\'" . go-mode))
+  :hook ((before-save . gofmt-before-save))
+  :config
+  (setq gofmt-command "goimports")
+
+
+  (use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred))
+
+  ;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+;; Optional - provides fancier overlays.
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+;; Company mode is a standard completion package that works well with lsp-mode.
+(use-package company
+  :ensure t
+  :config
+  ;; Optionally enable completion-as-you-type behavior.
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 1))
+
+;; Optional - provides snippet support.
+(use-package yasnippet
+  :ensure t
+  :commands yas-minor-mode
+  :hook (go-mode . yas-minor-mode))
+
+  (use-package go-eldoc
+    :ensure t
+    :hook (go-mode . go-eldoc-setup)
+    )
+  (use-package go-guru
+    :ensure t
+    :hook (go-mode . go-guru-hl-identifier-mode)
+    )
+  (use-package go-rename
+    :ensure t)
+  )
+
+(provide 'go)
+;;; go.el ends here
