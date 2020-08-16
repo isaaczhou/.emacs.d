@@ -3,3 +3,9 @@ elpa/
 .last-package-update-day
 projectile-bookmarks.eld
 *session.*
+configuration.el
+url/
+irony/
+.lsp-session-v1
+.mc-lists.el
+transient/

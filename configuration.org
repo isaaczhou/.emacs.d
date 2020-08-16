@@ -1,4 +1,3 @@
-
 #+TITLE: Emacs Configuration
 #+AUTHOR: Isaac Zhou
 #+EMAIL: isaaczhou85@gmail.com
@@ -462,9 +461,8 @@ that:
 ** set python interpreter
 
 #+begin_src emacs-lisp
-(setq python-shell-interpreter "/usr/bin/python3")
+(setq python-shell-interpreter "/home/isaac/anaconda3/bin/python")
 #+end_src
-
 
 ** Org Babel
 
@@ -472,8 +470,8 @@ that:
   (use-package ob-ipython
     :ensure t)
   (require 'ob-js)
-  (setq org-babel-python-command "/usr/bin/python3")
-  (setq py-python-command "/usr/bin/python3")
+  (setq org-babel-python-command "/home/isaac/anaconda3/bin/python")
+  (setq py-python-command "/home/isaac/anaconda3/bin/python")
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -961,7 +959,3 @@ that:
   (provide 'go)
   ;;; go.el ends here
 #+end_src
-
-
-
-
