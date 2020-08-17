@@ -195,10 +195,8 @@ that:
   ;;   (set-default-font "Source Code Pro 14"))
 
   (when (window-system)                   
-    (set-default-font "Source Code Pro 16"))
+    (set-frame-font "Source Code Pro 16"))
 #+end_src
-
-#+RESULTS:
 
 ** Use fancy lambdas
 
@@ -731,6 +729,7 @@ that:
 #+end_src
 
 ** Python
+
 #+begin_src emacs-lisp
   ;;; python.el --- python related                     -*- lexical-binding: t; -*-
 
@@ -786,7 +785,13 @@ that:
   ;;; python.el ends here
 #+end_src
 
-#+RESULTS:
+*** pythonic
+
+#+begin_src emacs-lisp
+  (use-package pythonic
+    :ensure t
+    )
+#+end_src
 
 *** pipenv
 #+begin_src emacs-lisp
