@@ -198,6 +198,7 @@ that:
     (set-frame-font "Source Code Pro 16"))
 #+end_src
 
+
 ** Use fancy lambdas
 
 #+begin_src emacs-lisp
@@ -205,6 +206,37 @@ that:
 #+end_src
 
 
+
+** icons
+
+#+begin_src emacs-lisp
+  (use-package
+    all-the-icons
+    :ensure t
+    )
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+  ;; (all-the-icons-install-fonts)
+#+end_src
+
+*** Ivy-icons
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons-ivy
+    :ensure t
+    :init (all-the-icons-ivy-setup)
+    )
+#+end_src
+
+*** Dired-icons
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons-dired
+    :ensure t
+    :hook (dired-mode . all-the-icons-dired-mode)
+    )
+#+end_src
 
 ** Themes
 
