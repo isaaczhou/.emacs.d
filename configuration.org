@@ -209,16 +209,18 @@ that:
 
 ** icons
 
-#+begin_src emacs-lisp
-  (use-package
-    all-the-icons
-    :ensure t
-    )
-#+end_src
+*** install
 
-#+begin_src emacs-lisp :tangle no
-  ;; (all-the-icons-install-fonts)
-#+end_src
+ #+begin_src emacs-lisp
+   (use-package
+     all-the-icons
+     :ensure t
+     )
+ #+end_src
+
+ #+begin_src emacs-lisp :tangle no
+   ;; (all-the-icons-install-fonts)
+ #+end_src
 
 *** Ivy-icons
 
