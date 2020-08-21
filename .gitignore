@@ -10,3 +10,8 @@ irony/
 .mc-lists.el
 transient/
 .cache/
+temporary_folder/
+workspace/
+var/
+transient/
+.python-environments
