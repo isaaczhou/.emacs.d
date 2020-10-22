@@ -9,7 +9,7 @@
  '(irony-additional-clang-options (quote ("-std=c++11")))
  '(package-selected-packages
    (quote
-    (company-irony company-irony-c-headers ob-ipython yasnippet leuven-theme org-bullets auto-compile use-package))))
+    (irony-eldoc flycheck-irony company-irony company-irony-c-headers go-rename go-guru go-eldoc ob-ipython yasnippet leuven-theme org-bullets auto-compile use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
