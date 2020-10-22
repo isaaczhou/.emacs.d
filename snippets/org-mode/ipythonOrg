@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: ipython org
-# key: obpo
-# --
-#+BEGIN_SRC ipython :session :exports both :results output org
-$0
-#+END_SRC
