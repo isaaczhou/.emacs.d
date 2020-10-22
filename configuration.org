@@ -63,7 +63,6 @@ Refresh package
   (org-bullets-mode t)
 #+end_src
 
-
 ** set autosave and backup dir
 
 #+begin_src emacs-lisp
@@ -207,39 +206,6 @@ that:
 
 
 
-** icons
-
-*** install
-
- #+begin_src emacs-lisp
-   (use-package
-     all-the-icons
-     :ensure t
-     )
- #+end_src
-
- #+begin_src emacs-lisp :tangle no
-   ;; (all-the-icons-install-fonts)
- #+end_src
-
-*** Ivy-icons
-
-#+begin_src emacs-lisp
-  (use-package all-the-icons-ivy
-    :ensure t
-    :init (all-the-icons-ivy-setup)
-    )
-#+end_src
-
-*** Dired-icons
-
-#+begin_src emacs-lisp
-  (use-package all-the-icons-dired
-    :ensure t
-    :hook (dired-mode . all-the-icons-dired-mode)
-    )
-#+end_src
-
 ** Themes
 
 *** powerline
@@ -250,6 +216,8 @@ that:
  (powerline-default-theme)
 
  #+end_src
+
+ #+RESULTS:
 
 
 *** monokai theme
@@ -494,57 +462,8 @@ that:
 ** set python interpreter
 
 #+begin_src emacs-lisp
-(setq python-shell-interpreter "/home/isaac/anaconda3/bin/python")
+(setq python-shell-interpreter "/root/anaconda3/bin/python")
 #+end_src
-
-** Org Babel
-
-#+begin_src emacs-lisp
-  (use-package ob-ipython
-    :ensure t)
-  (require 'ob-js)
-  (setq org-babel-python-command "/home/isaac/anaconda3/bin/python")
-  (setq py-python-command "/home/isaac/anaconda3/bin/python")
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((python . t)
-     (ipython . t)
-     (C . t)
-     (calc . t)
-     (latex . t)
-     (java . t)
-     (ruby . t)
-     (lisp . t)
-     (scheme . t)
-     (shell . t)
-     (sqlite . t)
-     (js . t)))
-
-  (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
-  (add-to-list 'org-babel-tangle-lang-exts '("js" . "js"))
-
-  (defun my-org-confirm-babel-evaluate (lang body)
-    "Do not confirm evaluation for these languages."
-    (not (or (string= lang "C")
-             (string= lang "ipython")
-             (string= lang "java")
-             (string= lang "python")
-             (string= lang "emacs-lisp")
-             (string= lang "js")
-             (string= lang "sqlite"))))
-  (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
-
-  ;; js
-  (setq org-babel-js-function-wrapper
-        "console.log(require('util').inspect(function(){\n%s\n}(), { depth: 100 }))")
-
-  ;;; display/update images in the buffer after I evaluate
-  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-#+end_src
-
-#+RESULTS:
-| org-display-inline-images |
 
 ** Webmode
 
@@ -882,7 +801,6 @@ that:
       )
     )
 
-
   ;;
   ;; rtags enable jump-to-function definition
   ;; system need to install rtags first
@@ -1044,6 +962,19 @@ that:
 
 
 
+** astyle
+
+#+begin_src emacs-lisp
+(defun astyle-this-buffer (pmin pmax)
+  (interactive "r")
+  (shell-command-on-region pmin pmax
+                           "astyle" ;; add options here...
+                           (current-buffer) t 
+                           (get-buffer-create "*Astyle Errors*") t))
+
+(global-set-key (kbd "C-M-l") 'astyle)
+#+end_src
+
 * SSH
 
 ** Tramp
@@ -1086,13 +1017,4 @@ that:
     (dired "~"))
 #+end_src
 
-
-** shell-pop
-
-#+begin_src emacs-lisp
-  (add-to-list 'load-path "/usr/bin/zsh")
-  (use-package
-    shell-pop
-    :ensure t)
-#+end_src
 
