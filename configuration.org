@@ -195,7 +195,7 @@ that:
   ;;   (set-default-font "Source Code Pro 14"))
 
   (when (window-system)                   
-    (set-frame-font "Source Code Pro 16"))
+    (set-frame-font "MesloLGS NF 18"))
 #+end_src
 
 
@@ -491,7 +491,7 @@ that:
 ** set python interpreter
 
 #+begin_src emacs-lisp
-(setq python-shell-interpreter "/home/isaac/anaconda3/bin/python")
+(setq python-shell-interpreter "/usr/bin/python3")
 #+end_src
 
 ** Org Babel
@@ -500,8 +500,8 @@ that:
   (use-package ob-ipython
     :ensure t)
   (require 'ob-js)
-  (setq org-babel-python-command "/home/isaac/anaconda3/bin/python")
-  (setq py-python-command "/home/isaac/anaconda3/bin/python")
+  (setq org-babel-python-command "/usr/bin/python3")
+  (setq py-python-command "/usr/bin/python3")
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -865,8 +865,16 @@ that:
     (use-package company-irony
       :ensure t
       :config
-      (add-to-list (make-local-variable 'company-backends)
-                   '(company-irony company-irony-c-headers)))
+      (add-to-list 
+      (make-local-variable 'company-backends)
+      '(company-irony company-irony-c-headers))
+      ;; (custom-set-variables
+      ;; '(irony-additional-clang-options 
+      ;; '("-std=c++11")
+      ;; '("/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1")
+      ;; ))                   
+      )
+
     (use-package flycheck-irony
       :ensure t
       :config
@@ -878,7 +886,6 @@ that:
       (add-hook 'irony-mode-hook #'irony-eldoc)
       )
     )
-
 
   ;;
   ;; rtags enable jump-to-function definition
@@ -935,9 +942,18 @@ that:
     (add-hook 'c++-mode-hook (lambda() (add-hook 'before-save-hook 'clang-format-buffer)))
     )
 
+    ;; additional clang
+    (setq 
+    irony-additional-clang-options 
+    ;; '("/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1")
+    '("-std=c++11")
+    )
+
+
   (provide 'c)
   ;;; c.el ends here
 #+end_src
+
 
 ** Go
 
