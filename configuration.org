@@ -209,16 +209,18 @@ that:
 
 ** icons
 
-#+begin_src emacs-lisp
-  (use-package
-    all-the-icons
-    :ensure t
-    )
-#+end_src
+*** install
 
-#+begin_src emacs-lisp :tangle no
-  ;; (all-the-icons-install-fonts)
-#+end_src
+ #+begin_src emacs-lisp
+   (use-package
+     all-the-icons
+     :ensure t
+     )
+ #+end_src
+
+ #+begin_src emacs-lisp :tangle no
+   ;; (all-the-icons-install-fonts)
+ #+end_src
 
 *** Ivy-icons
 
@@ -487,6 +489,7 @@ that:
 
 
 * Languages
+
 
 ** set python interpreter
 
@@ -1012,3 +1015,100 @@ that:
   (provide 'go)
   ;;; go.el ends here
 #+end_src
+
+** Java
+
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :init
+    (setq lsp-prefer-flymake nil)
+    :demand t
+    :after jmi-init-platform-paths)
+  (use-package lsp-ui
+    :config
+    (setq lsp-ui-doc-enable t
+          lsp-ui-sideline-enable t
+          lsp-ui-flycheck-enable t)
+    :after lsp-mode)
+
+  (use-package lsp-java
+    :ensure t
+    :init
+    (defun jmi/java-mode-config ()
+      (setq-local tab-width 2
+                  c-basic-offset 2)
+      ;; (toggle-truncate-lines 1)
+      (setq-local tab-width 2)
+      (setq-local c-basic-offset 2)
+      (lsp))
+
+    :config
+    (setq
+     lsp-java-server-install-dir (expand-file-name "~/.emacs.d/var/jdt-language-server")
+     ;; lsp-java-workspace-dir (expand-file-name "~/projects/java-proj/")
+     )
+
+    :hook (java-mode . jmi/java-mode-config)
+    )
+#+end_src
+
+
+
+
+
+
+
+
+
+* SSH
+
+** Tramp
+
+#+begin_src emacs-lisp
+  (use-package tramp
+    :ensure)
+  (setq tramp-default-method "ssh")
+#+end_src
+
+** Connect to 188
+
+#+begin_src emacs-lisp
+  (defun r188()
+    (interactive)
+    (dired "/ssh:isaac.zhou@172.16.200.188:/home/isaac.zhou"))
+#+end_src
+
+** Connect to 190
+
+#+begin_src emacs-lisp
+  (defun r190()
+    (interactive)
+    (dired "/ssh:isaac.zhou@127.16.200.190:/home/isaac.zhou"))
+#+end_src
+
+** Connect to 194
+
+#+begin_src emacs-lisp
+  (defun r194()
+    (interactive)
+    (dired "/ssh:isaac.zhou@127.16.200.194:/home/isaac.zhou"))
+#+end_src
+
+** Connect to local
+
+#+begin_src emacs-lisp
+  (defun lo()
+    (interactive)
+    (dired "~"))
+#+end_src
+
+
+** shell-pop
+
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "/usr/bin/zsh")
+  (use-package
+    shell-pop
+    :ensure t)
+#+end_src
+

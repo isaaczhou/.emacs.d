@@ -9,4 +9,8 @@ irony/
 .lsp-session-v1
 .mc-lists.el
 transient/
+.cache/
+temporary_folder/
+workspace/
+var/
 .python-environments
