@@ -6,7 +6,7 @@
  '(custom-safe-themes
    '("890a1a44aff08a726439b03c69ff210fe929f0eff846ccb85f78ee0e27c7b2ea" default))
  '(package-selected-packages
-   '(astyle ob-ipython yasnippet leuven-theme org-bullets auto-compile use-package)))
+   '(counsel-projectile company-web ob-ipython yasnippet leuven-theme org-bullets auto-compile use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
