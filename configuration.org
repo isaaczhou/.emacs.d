@@ -994,6 +994,8 @@ that:
 ** astyle
 
 #+begin_src emacs-lisp
+  (use-package astyle
+    :ensure 1)
   (astyle-on-save-mode 1)
   (defun astyle-this-buffer (pmin pmax)
     (interactive "r")
@@ -1004,6 +1006,7 @@ that:
 
   (global-set-key (kbd "C-M-l") 'astyle)
 #+end_src
+
 
 * SSH
 
