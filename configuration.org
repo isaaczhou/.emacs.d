@@ -850,6 +850,7 @@ that:
 
   ;;; Code:
 
+  (load "/usr/local/Cellar/clang-format/10.0.1/share/clang/clang-format.el")
 
   ;;
   ;; irony is for auto-complete, syntax checking and documentation
@@ -956,6 +957,7 @@ that:
   (provide 'c)
   ;;; c.el ends here
 #+end_src
+
 
 
 ** Go
@@ -1094,6 +1096,15 @@ that:
     (dired "/ssh:isaac.zhou@127.16.200.194:/home/isaac.zhou"))
 #+end_src
 
+** Connect to stage-a
+
+#+begin_src emacs-lisp
+  (defun stagea()
+    (interactive)
+    (dired "/ssh:isaac.zhou@52.2.158.60:/home/isaac.zhou"))
+#+end_src
+
+
 ** Connect to local
 
 #+begin_src emacs-lisp
@@ -1101,7 +1112,6 @@ that:
     (interactive)
     (dired "~"))
 #+end_src
-
 
 ** shell-pop
 
