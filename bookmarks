@@ -1,0 +1,20 @@
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("RTags_2"
+ (filename . "/usr/include/c++/10.2.0/iostream")
+ (front-context-string . "cout;		/// Linke")
+ (rear-context-string . " extern ostream ")
+ (position . 2060))
+("RTags_1"
+ (filename . "~/projects/c_train/c-proj/app.cpp")
+ (front-context-string . "cout << my_obj.a")
+ (rear-context-string . "_util.help();\n  ")
+ (position . 416))
+("RTags_0"
+ (filename . "~/projects/c_train/c-proj/util/util.cpp")
+ (front-context-string . "cout << \"This is")
+ (rear-context-string . "Util::help(){\n  ")
+ (position . 344))
+)

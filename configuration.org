@@ -223,9 +223,8 @@ that:
   ;;   (set-default-fontx  "Source Code Pro 14"))
 
   (when (window-system)                   
-    (set-frame-font "Source Code Pro 16"))
+    (set-frame-font "Source Code Pro 15"))
 #+end_src
-
 
 ** Use fancy lambdas
 
@@ -491,7 +490,8 @@ that:
 ** set python interpreter
 
 #+begin_src emacs-lisp
-(setq python-shell-interpreter "/root/anaconda3/bin/python")
+  ;; (setq python-shell-interpreter "/root/anaconda3/bin/python")
+(setq python-shell-interpreter "/usr/bin/python")
 #+end_src
 
 ** Webmode
@@ -889,6 +889,18 @@ that:
   ;;; c.el ends here
 #+end_src
 
+
+*** ctags
+#+begin_src emacs-lisp
+  (setq path-to-ctags "/usr/local/bin/ctags")
+  (defun create-tags (dir-name)
+      "Create tags file."
+      (interactive "DDirectory: ")
+      (shell-command
+       (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name)))
+    )
+#+end_src
+
 ** Go
 
 #+begin_src emacs-lisp
@@ -989,13 +1001,11 @@ that:
 
 
 
-
-
 ** astyle
 
 #+begin_src emacs-lisp
   (use-package astyle
-    :ensure 1)
+    :ensure t)
   (astyle-on-save-mode 1)
   (defun astyle-this-buffer (pmin pmax)
     (interactive "r")
@@ -1007,6 +1017,51 @@ that:
   (global-set-key (kbd "C-M-l") 'astyle)
 #+end_src
 
+** Org Babel
+
+#+begin_src emacs-lisp
+  (use-package ob-ipython
+    :ensure t)
+  (require 'ob-js)
+  (setq org-babel-python-command "/usr/bin/python")
+  (setq py-python-command "/usr/bin/python")
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)
+     (ipython . t)
+     (C . t)
+     (calc . t)
+     (latex . t)
+     (java . t)
+     (ruby . t)
+     (lisp . t)
+     (scheme . t)
+     (shell . t)
+     (sqlite . t)
+     (js . t)))
+
+  (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
+  (add-to-list 'org-babel-tangle-lang-exts '("js" . "js"))
+
+  (defun my-org-confirm-babel-evaluate (lang body)
+    "Do not confirm evaluation for these languages."
+    (not (or (string= lang "C")
+             (string= lang "ipython")
+             (string= lang "java")
+             (string= lang "python")
+             (string= lang "emacs-lisp")
+             (string= lang "js")
+             (string= lang "sqlite"))))
+  (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+
+  ;; js
+  (setq org-babel-js-function-wrapper
+        "console.log(require('util').inspect(function(){\n%s\n}(), { depth: 100 }))")
+
+  ;;; display/update images in the buffer after I evaluate
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+#+end_src
 
 * SSH
 
