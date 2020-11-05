@@ -490,7 +490,6 @@ that:
 
 * Languages
 
-
 ** set python interpreter
 
 #+begin_src emacs-lisp
@@ -957,7 +956,6 @@ that:
   (provide 'c)
   ;;; c.el ends here
 #+end_src
-
 
 
 ** Go
