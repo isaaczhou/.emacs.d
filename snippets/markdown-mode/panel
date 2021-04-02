@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: hugopanel
+# key: panel
+# --
+
+{{% panel theme="success" header="Results" %}}
+text
+{{% /panel %}}

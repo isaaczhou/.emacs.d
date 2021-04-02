@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: nodejs block
+# key: njs
+# --
+#+BEGIN_SRC js :exports both :results raw drawer
+  $0
+#+END_SRC
