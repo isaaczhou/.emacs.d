@@ -523,6 +523,17 @@ that:
 
 * Languages
 
+** astyle
+#+begin_src emacs-lisp
+(defun astyle-this-buffer (pmin pmax)
+  (interactive "r")
+  (shell-command-on-region pmin pmax
+                           "astyle" ;; add options here...
+                           (current-buffer) t 
+                           (get-buffer-create "*Astyle Errors*") t))
+  (bind-key "C-c l"  'astyle-buffer)
+#+end_src
+
 
 ** set python interpreter
 

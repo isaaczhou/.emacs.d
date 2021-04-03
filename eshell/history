@@ -1,0 +1,11 @@
+ls 
+git init
+git status
+git add .
+git commit -m "initialize ansible"
+git remote add origin git@github.com:isaaczhou/ansible_desktop.git
+git branch -M main
+git push -u origin main
+which htop
+htop
+sudo ansible-pull -U https://github.com/isaaczhou/ansible_desktop.git
