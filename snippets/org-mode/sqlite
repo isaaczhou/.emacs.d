@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: sqlite block
+# key: slt
+# --
+#+name: name
+#+header: :list
+#+header: :separator \
+#+header: :results raw drawer
+#+header: :dir ./data/
+#+header: :db name.db
+#+begin_src sqlite
+.mode column
+.header on
+#+end_src

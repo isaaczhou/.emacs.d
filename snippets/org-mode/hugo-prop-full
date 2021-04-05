@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: hugo-property-full
+# key: hugof
+# --
+
+#+TITLE:
+#+DATE:
+#+HUGO_TAG:
+#+HUGO_CATEGORIES
+#+HUGO_MENU: :menu "main" :weight 2001
+#+HUGO_CUSTOM_FRONT_MATTER: :foo bar :baz zoo :alpha 1 :beta "two words" :gamma 10
+
+#+HUGO_DRAFT: ture

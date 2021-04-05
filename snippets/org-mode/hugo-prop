@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Hugo-Property-Subtree
+# key: hugop
+# --
+:PROPERTIES:
+:EXPORT_FILE_NAME:
+:EXPORT_DATE:
+:END:
