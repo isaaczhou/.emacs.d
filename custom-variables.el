@@ -9,7 +9,7 @@
  '(irony-additional-clang-options (quote ("-std=c++11")))
  '(package-selected-packages
    (quote
-    (google-c-style astyle ob-ipython yasnippet leuven-theme org-bullets auto-compile use-package))))
+    (latex-preview-pane auctex ob-ipython yasnippet leuven-theme org-bullets auto-compile use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

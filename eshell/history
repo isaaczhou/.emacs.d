@@ -9,3 +9,33 @@ git push -u origin main
 which htop
 htop
 sudo ansible-pull -U https://github.com/isaaczhou/ansible_desktop.git
+ll
+ls
+mkdir build && cd build
+cmake ..
+cmake ..
+ll
+ls
+make 
+ls
+cmake ..
+make 
+cmake ..
+make 
+ll
+ls
+./app
+ll
+ls
+ls 
+python test.py 
+python test.py 
+python test.py 
+python test.py 
+ll
+ls 
+python main.py 
+python main.py 
+ls 
+pdftex get_started.tex 
+ls 
